@@ -25,7 +25,10 @@ def handle_client(conn, addr):
             msg = conn.recv(msg_length).decode(FORMAT)
             if msg == DISCONNECT_MSG:
                 connected = False
+
+                conn.send("Disconnecting on client request".encode(FORMAT))
         print(addr,msg)
+        conn.send("Message Recieved boii".encode(FORMAT))
     conn.close()
 
 def start():
