@@ -18,19 +18,35 @@ def handle_client(conn, addr):
     print ("Connected!")
     connected = True
     while connected :
+       try:
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
+       except ConnectionResetError :
+           connected = False
+           print("OOPS! Connection failed suddenly!")
+           break
+       except ConnectionAbortedError:
+                        connected =False
+                        print("OOPS! someone triggered Ctrl+C on client side!")
+                        break
+       if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
-            
+           
+
             if msg == DISCONNECT_MSG:
                 connected = False
-                conn.send("Disconnecting on client request".encode(FORMAT))
-        print(addr,msg)
-        address = ''.join(str(addr)) 
-        with open(address+'.txt', 'a') as address:
+                try:
+                    conn.send("Disconnecting on client request".encode(FORMAT))
+                except ConnectionAbortedError:
+                        connected =False
+                        print("OOPS! someone triggered Ctrl+C on client side!")
+                        break
+       print(addr,msg)
+       address = ''.join(str(addr)) 
+       with open(address+'.txt', 'a') as address:
             print(msg, file=address)
-        conn.send("Message Recieved boii".encode(FORMAT))
+       conn.send("Message Recieved boii".encode(FORMAT))
+        
     conn.close()
 
 def start():
