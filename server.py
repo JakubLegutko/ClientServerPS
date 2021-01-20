@@ -8,7 +8,6 @@ SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MSG = "DISCO-2137"
-# got AF_INET socket now :D
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 #bound socket to machine address
@@ -23,11 +22,16 @@ def handle_client(conn, addr):
         if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
+            
             if msg == DISCONNECT_MSG:
                 connected = False
-
                 conn.send("Disconnecting on client request".encode(FORMAT))
         print(addr,msg)
+        print(addr)
+        
+        address = ''.join(str(addr)) 
+        with open(address+'.txt', 'a') as address:
+            print(msg, file=address)
         conn.send("Message Recieved boii".encode(FORMAT))
     conn.close()
 

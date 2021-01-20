@@ -1,9 +1,32 @@
 import socket  
 import serial
+import time
+import sys
 
 
 
-ser = serial.Serial('COM6',baudrate = 115200, timeout = 1)
+PORTS = ['COM1','COM2','COM3','COM4','COM5','COM6','COM7','COM8']
+while True:
+       try:
+        COM = sys.argv[1]
+        if COM in PORTS :
+            break
+        else :
+            print("Usage: client.py COM| where | is COM port number!")
+            sys.exit()
+       except IndexError :
+            print("Usage: client.py COM| where | is COM port number!")
+            sys.exit()
+            
+
+while True:
+   try:
+     ser = serial.Serial(COM,baudrate = 115200, timeout = 1)
+     break
+   except serial.serialutil.SerialException:
+        print("Connect device!")
+        time.sleep(2)
+
 HEADER = 64
 PORT = 5050
 FORMAT = 'utf-8'
@@ -42,5 +65,6 @@ input()
 send("Hello World!")
 input()
 send("Hello World!")
+
 read_sensor_data_and_send()
 send(DISCONNECT_MSG)
