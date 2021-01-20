@@ -24,9 +24,21 @@ while True:
      ser = serial.Serial(COM,baudrate = 115200, timeout = 1)
      break
    except serial.serialutil.SerialException:
-        print("Connect device!")
-        time.sleep(2)
-
+       device = False
+       for i in range(10): 
+         print("Connect device! Attempt number {i+1}")
+         time.sleep(2)
+         try:
+            ser = serial.Serial(COM,baudrate = 115200, timeout = 1)
+            device = True
+            break
+         except serial.serialutil.SerialException:
+             print("...")
+   if(device == False):
+            print("No response from device, exiting...")
+            sys.exit()
+   else:
+            break
 HEADER = 64
 PORT = 5050
 FORMAT = 'utf-8'
