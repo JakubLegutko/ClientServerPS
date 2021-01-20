@@ -7,7 +7,7 @@ PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
-DISCONNECT_MSG = "DISCO-2137"
+DISCONNECT_MSG = "DISCO-PLS"
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
 #bound socket to machine address
@@ -27,8 +27,6 @@ def handle_client(conn, addr):
                 connected = False
                 conn.send("Disconnecting on client request".encode(FORMAT))
         print(addr,msg)
-        print(addr)
-        
         address = ''.join(str(addr)) 
         with open(address+'.txt', 'a') as address:
             print(msg, file=address)

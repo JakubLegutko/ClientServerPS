@@ -30,7 +30,7 @@ while True:
 HEADER = 64
 PORT = 5050
 FORMAT = 'utf-8'
-DISCONNECT_MSG = "DISCO-2137"
+DISCONNECT_MSG = "DISCO-PLS"
 SERVER = "192.168.56.1"
 ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
