@@ -18,10 +18,10 @@ while True:
             print("Usage: client.py COM| where | is COM port number!")
             sys.exit()
             
-
+baudrate = sys.argv[2]
 while True:
    try:
-     ser = serial.Serial(COM,baudrate = 9600, timeout = 1)
+     ser = serial.Serial(COM,baudrate, timeout = 1)
      break
    except serial.serialutil.SerialException:
        device = False
@@ -29,7 +29,7 @@ while True:
          print(f"Connect device! Attempt number {i+1}")
          time.sleep(2)
          try:
-            ser = serial.Serial(COM,baudrate = 9600, timeout = 1)
+            ser = serial.Serial(COM,baudrate, timeout = 1)
             device = True
             break
          except serial.serialutil.SerialException:
@@ -73,6 +73,7 @@ def read_sensor_data_and_send():
          KLO5Data = ser.readline()
          print(KLO5Data)
          msg_length = len(KLO5Data)
+         #create header for transmission to inform server of incoming data size
          send_length = str(msg_length).encode(FORMAT,"ignore")
          send_length += b'' *(HEADER - len(send_length))
          try:
@@ -105,11 +106,7 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT,"ignore"))
 
 
-#send("Hello World!")
-input()
-#send("Hello World!")
-input()
-#send("Hello World!")
+
 
 read_sensor_data_and_send()
 send(DISCONNECT_MSG)

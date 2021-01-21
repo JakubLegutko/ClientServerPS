@@ -6,6 +6,7 @@ import string
 import sys
 while True:
        try:
+           #Set file name to argument 1 passed at startup
         address = sys.argv[1]
         break
        except IndexError :
@@ -24,7 +25,7 @@ ax1.set_ylim((-1.2,1.2))
 ax2.set_ylim((-1.2,1.2))
 ax3.set_ylim((-1.2,1.2))
 
-#plt.style.use('fivethirtyeight')
+
 
 t_vals = []
 x_vals = []
@@ -42,12 +43,12 @@ def animate(i):
         print(KLO5Data)
         data = KLO5Data.split(',')
         print(data)
-
+        #data is split into single chars at start, split it based on ,
         conv_data = []
         for element in data:
             print(element)
             conv_data.append(element.strip())
-            
+            #convert data to text without \n or other escape characters
         print(conv_data)
         try:
             graph_data = [float(i) for i in conv_data]

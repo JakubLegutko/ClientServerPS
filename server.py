@@ -10,7 +10,7 @@ FORMAT = 'ascii'
 DISCONNECT_MSG = "DISCO-PLS"
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
-#bound socket to machine address
+#bind socket to machine address
 
 def handle_client(conn, addr):
     print("[NEW CONN!]")
