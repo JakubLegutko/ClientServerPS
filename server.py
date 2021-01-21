@@ -19,7 +19,7 @@ def handle_client(conn, addr):
     connected = True
     while connected :
        try:
-        msg_length = conn.recv(HEADER).decode(FORMAT)
+        msg_length = conn.recv(HEADER).decode(FORMAT,"ignore")
        except ConnectionResetError :
            connected = False
            print("OOPS! Connection failed suddenly!")
@@ -30,7 +30,7 @@ def handle_client(conn, addr):
                         break
        if msg_length:
             msg_length = int(msg_length)
-            msg = conn.recv(msg_length).decode(FORMAT)
+            msg = conn.recv(msg_length).decode(FORMAT,"ignore")
            
 
             if msg == DISCONNECT_MSG:
@@ -38,7 +38,7 @@ def handle_client(conn, addr):
                 
                 try:
                     
-                    conn.send("Disconnecting on client request".encode(FORMAT))
+                    conn.send("Disconnecting on client request".encode(FORMAT,"ignore"))
                 except ConnectionAbortedError:
                         connected =False
                         print("OOPS! someone triggered Ctrl+C on client side!")
@@ -47,7 +47,7 @@ def handle_client(conn, addr):
        address = ''.join(str(addr)) 
        with open(address+'.txt', 'a') as address:
             print(msg, file=address)
-       conn.send("Message Recieved boii".encode(FORMAT))
+       conn.send("Message Recieved boii".encode(FORMAT,"ignore"))
         
     conn.close()
 

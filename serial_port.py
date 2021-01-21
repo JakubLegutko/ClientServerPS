@@ -9,9 +9,13 @@ while True:
         address = sys.argv[1]
         break
        except IndexError :
-            print("Usage: serial_port.py filename where filename is data file that server recieved")
+            print("Usage: serial_port.py \"filename\" where filename is data file that server recieved")
             sys.exit()
-fo = open(address,'r')
+try:
+    fo = open(address,'r')
+except FileNotFoundError:
+       print("No such file! Usage: serial_port.py \"filename\" where filename is data file that server recieved")
+       sys.exit()
 ax1 = plt.subplot(3, 1, 1)
 ax2 = plt.subplot(3, 1, 2)
 ax3 = plt.subplot(3, 1, 3)
@@ -31,6 +35,7 @@ def animate(i):
 
     KLO5Data = fo.readline()
     KLO5Data.replace(' ','')
+    KLO5Data.replace('x00','')
     if KLO5Data.strip():
         
         KLO5Data.replace('\x00','')
@@ -44,7 +49,11 @@ def animate(i):
             conv_data.append(element.strip())
             
         print(conv_data)
-        graph_data = [float(i) for i in conv_data]
+        try:
+            graph_data = [float(i) for i in conv_data]
+        except ValueError:
+            print("Please remove first space before value in file..")
+            sys.exit()
         print(graph_data)
         print("GRAPH")
         t_vals.append(next(index))

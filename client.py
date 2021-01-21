@@ -73,24 +73,24 @@ def read_sensor_data_and_send():
          KLO5Data = ser.readline()
          print(KLO5Data)
          msg_length = len(KLO5Data)
-         send_length = str(msg_length).encode(FORMAT)
-         send_length += b' ' *(HEADER - len(send_length))
+         send_length = str(msg_length).encode(FORMAT,"ignore")
+         send_length += b'' *(HEADER - len(send_length))
          try:
             client.send(send_length)
          except ConnectionResetError:
              print("OOPS! Server stopped responding and died.Client will exit as it has no target to send to")
              sys.exit()
          client.send(KLO5Data)
-         print(client.recv(2048).decode(FORMAT))
+         print(client.recv(2048).decode(FORMAT,"ignore"))
 
    
 
 
 
 def send(msg):
-    message = msg.encode(FORMAT)
+    message = msg.encode(FORMAT,"ignore")
     msg_length = len(message)
-    send_length = str(msg_length).encode(FORMAT)
+    send_length = str(msg_length).encode(FORMAT,"ignore")
     send_length += b' ' *(HEADER - len(send_length))
     try:
         client.send(send_length)
@@ -102,7 +102,7 @@ def send(msg):
     except ConnectionResetError:
         print("OOPS! Server stopped responding and died.Client will exit as it has no target to send to")
         sys.exit()
-    print(client.recv(2048).decode(FORMAT))
+    print(client.recv(2048).decode(FORMAT,"ignore"))
 
 
 #send("Hello World!")
