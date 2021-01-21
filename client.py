@@ -21,15 +21,15 @@ while True:
 
 while True:
    try:
-     ser = serial.Serial(COM,baudrate = 115200, timeout = 1)
+     ser = serial.Serial(COM,baudrate = 9600, timeout = 1)
      break
    except serial.serialutil.SerialException:
        device = False
        for i in range(10): 
-         print("Connect device! Attempt number {i+1}")
+         print(f"Connect device! Attempt number {i+1}")
          time.sleep(2)
          try:
-            ser = serial.Serial(COM,baudrate = 115200, timeout = 1)
+            ser = serial.Serial(COM,baudrate = 9600, timeout = 1)
             device = True
             break
          except serial.serialutil.SerialException:
@@ -41,7 +41,7 @@ while True:
             break
 HEADER = 64
 PORT = 5050
-FORMAT = 'utf-8'
+FORMAT = 'ascii'
 DISCONNECT_MSG = "DISCO-PLS"
 SERVER = "192.168.56.1"
 ADDR = (SERVER, PORT)
@@ -105,11 +105,11 @@ def send(msg):
     print(client.recv(2048).decode(FORMAT))
 
 
-send("Hello World!")
+#send("Hello World!")
 input()
-send("Hello World!")
+#send("Hello World!")
 input()
-send("Hello World!")
+#send("Hello World!")
 
 read_sensor_data_and_send()
 send(DISCONNECT_MSG)

@@ -6,7 +6,7 @@ HEADER = 64
 PORT = 5050
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER, PORT)
-FORMAT = 'utf-8'
+FORMAT = 'ascii'
 DISCONNECT_MSG = "DISCO-PLS"
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
@@ -35,7 +35,9 @@ def handle_client(conn, addr):
 
             if msg == DISCONNECT_MSG:
                 connected = False
+                
                 try:
+                    
                     conn.send("Disconnecting on client request".encode(FORMAT))
                 except ConnectionAbortedError:
                         connected =False
